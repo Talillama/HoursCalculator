@@ -9,18 +9,25 @@ const int regDayHours = 8;
 
 foreach (var day in days)
 {
-    int dayHoursWorked;
+    float dayHoursWorked;
     Console.WriteLine("How many hours worked on " + day + "?");
     var dayHoursWorkedEntered = Console.ReadLine();
-    int.TryParse(dayHoursWorkedEntered, out dayHoursWorked);
+
+    while (!float.TryParse(dayHoursWorkedEntered, out dayHoursWorked) || string.IsNullOrEmpty(dayHoursWorkedEntered) || dayHoursWorked < 0)
+    {
+        Console.WriteLine("Please enter an valid number of 0 or greater.");
+        dayHoursWorkedEntered = Console.ReadLine();
+    }
+    
+    int dayHoursWorkedRounded = (int)Math.Round(dayHoursWorked);
     if (dayHoursWorked > regDayHours)
     {
-        overtime += dayHoursWorked - regDayHours;
+        overtime += dayHoursWorkedRounded - regDayHours;
         weeklyHours += regDayHours;  
     }
     else
     {
-        weeklyHours += dayHoursWorked;
+        weeklyHours += dayHoursWorkedRounded;
     }
 }
 if (weeklyHours > regWeeklyHours)
